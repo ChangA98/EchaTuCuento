@@ -5,7 +5,7 @@ export class Cuento {
   cuerpo: string;
   fecha: Date;
   imagenURL?: string;
-  usuario?: Usuario;
+  usuario: Usuario;
   numFeliz: number;
   numTriste: number;
 }

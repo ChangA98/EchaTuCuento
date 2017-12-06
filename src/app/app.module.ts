@@ -10,6 +10,7 @@ import {BdService} from './servicios/bd.service';
 import { UsuarioComponent } from './usuario/usuario.component';
 import { CuentoComponent } from './cuento/cuento.component';
 import {RouterModule, Routes} from '@angular/router';
+import {UploadService} from './servicios/upload.service';
 
 const appRoutes: Routes = [
   {path: '', component: CuentoComponent},
@@ -30,7 +31,8 @@ const appRoutes: Routes = [
     RouterModule.forRoot(appRoutes)
   ],
   providers: [
-    BdService
+    BdService,
+    UploadService
   ],
   bootstrap: [AppComponent]
 })

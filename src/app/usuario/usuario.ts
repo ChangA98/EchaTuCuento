@@ -3,5 +3,5 @@ export class Usuario {
   ident: string;
   nombre: string;
   email: string;
-  cuentos: number[];
+  cuentos: string[];
 }

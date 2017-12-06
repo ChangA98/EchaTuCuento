@@ -6,6 +6,8 @@ import {Usuario} from '../usuario/usuario';
 import {UsuarioComponent} from '../usuario/usuario.component';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
+import {Upload} from '../servicios/upload';
+import {UploadService} from '../servicios/upload.service';
 
 @Component({
   selector: 'app-cuento',
@@ -17,25 +19,37 @@ export class CuentoComponent implements OnInit {
 
   cuentos: Cuento[];
   usuarios: Usuario[];
-
   enviar: Cuento;
   usuario: Usuario;
 
+  selectedFiles: FileList;
+  currentUpload: Upload;
+
   auth: UsuarioComponent;
 
-  constructor(private BD: BdService, private afAuth: AngularFireAuth) { }
+  constructor(private BD: BdService, private afAuth: AngularFireAuth, private arriba: UploadService) { }
 
   anadirCuento(form: NgForm) {
     if (form.value.cuerpo != null) {
       if (form.value.cuerpo.length > 0 && form.value.cuerpo.length < 1000) {
-        console.log(this.usuario);
-        this.BD.insertaCuento(form.value, this.usuario);
+        this.usuario = this.BD.insertaCuento(form.value, this.usuario, this.currentUpload);
       }
       else {
         console.log('Número de caracteres inválido');
       }
       this.enviar = new Cuento();
     }
+  }
+
+  detectarArchivo(event) {
+    this.selectedFiles = event.target.files;
+    this.subir();
+  }
+
+  subir() {
+    const file = this.selectedFiles.item(0);
+    this.currentUpload = new Upload(file);
+    this.arriba.pushUpload(this.currentUpload);
   }
 
   patata() {
@@ -55,6 +69,16 @@ export class CuentoComponent implements OnInit {
         this.usuario = this.usuarios[0];
       }
     });
+  }
+
+  sumarFeliz(cuento: Cuento) {
+    cuento.numFeliz = cuento.numFeliz++;
+    this.BD.sumarFeliz(cuento);
+  }
+
+  sumarTriste(cuento: Cuento) {
+    cuento.numTriste = cuento.numTriste++;
+    this.BD.sumarTriste(cuento);
   }
 
   ngOnInit() {

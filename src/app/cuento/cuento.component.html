@@ -13,12 +13,11 @@
       </div>
       <table>
         <tr>
-          <button type="button" class="btn btn-primary">Feliz: {{cuento.numFeliz}}</button>
-          <button type="button" class="btn btn-primary">Triste: {{cuento.numTriste}}</button>
+          <button type="button" class="btn btn-primary" (click)="sumarFeliz(cuento)">Feliz: {{cuento.numFeliz}}</button>
+          <button type="button" class="btn btn-primary" (click)="sumarTriste(cuento)">Triste: {{cuento.numTriste}}</button>
         </tr>
         <tr>
-          <h5 *ngIf = "cuento.usuario" class="card-content"><small>{{cuento.usuario.nombre}}</small></h5>
-          <h5 class="card-content"><small>{{cuento.fecha}}</small></h5>
+          <p *ngIf = "cuento.usuario" class="card-content">{{cuento.usuario.nombre}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{cuento.fecha}}</p>
         </tr>
       </table>
     </div>
@@ -32,6 +31,9 @@
       <textarea *ngIf="usuario" class="form-control-lg" rows="6" name="cuerpo" required minlength="1" maxlength="1000" #cuerpo='ngModel' [(ngModel)] ="enviar.cuerpo"></textarea>
     </div>
     <button *ngIf = "usuario" type="submit" class="btn btn-primary">Enviar</button>
+    <button class="btn btn-primary" *ngIf = "usuario" href="usuario">Ver mis cuentos</button>
+    <label for="imagen" *ngIf = "usuario">Imagen</label>
+    <input *ngIf = "usuario" type="file" value="Subir Imagen" id="imagen" (change)="detectarArchivo($event)">
   </div>
 </form>
 <button *ngIf = "!usuario" class="btn btn-primary" (click)="patata()" >Login con Google</button>
